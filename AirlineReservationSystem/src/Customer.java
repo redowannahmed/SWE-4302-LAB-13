@@ -123,7 +123,7 @@ public class Customer {
         System.out.println();
     }
 
-    private String randomIDDisplay(String randomID) { // [Extract Method, Replace Magic Literal]
+    public String randomIDDisplay(String randomID) { // [Extract Method, Replace Magic Literal]
         StringBuilder newString = new StringBuilder();
         for (int i = 0; i < randomID.length(); i++) {
             if (i == ID_SPACE_POSITION) {
@@ -151,7 +151,13 @@ public class Customer {
         int newNumOfTickets = numOfTicketsBookedByUser.get(index) + numOfTickets;
         this.numOfTicketsBookedByUser.set(index, newNumOfTickets);
     }
-    
+
+    void addNewFlightToCustomerList(Flight f) {
+        this.flightsRegisteredByUser.add(f);
+        // numOfFlights++;
+    }
+
+
     public boolean isEmailAlreadyRegistered(String emailID) {
         boolean isUnique = false;
         for (Customer c : customerCollection) {
