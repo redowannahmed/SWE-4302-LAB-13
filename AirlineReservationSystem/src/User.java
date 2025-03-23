@@ -17,8 +17,9 @@ public class User {
      * 2D Array to store admin credentials. Default credentials are stored on [0][0]
      * index. Max num of admins can be 10....
      */
-    static String[][] adminUserNameAndPassword = new String[10][2];
-    private static List<Customer> customersCollection = new ArrayList<>();
+    private static final String[][] adminUserNameAndPassword = new String[10][2];
+    private static final List<Customer> customersCollection = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
 
     // ************************************************************
     // Behaviours/Methods
@@ -307,6 +308,16 @@ public class User {
             }
         } while (desiredOption != 0);
 
+    }
+
+    private static int getValidOption() {
+        displayMainMenu();
+        int option = scanner.nextInt();
+        while (option < 0 || option > 8) {
+            System.out.print("ERROR!! Please enter value between 0 - 8. Enter the value again :\t");
+            option = scanner.nextInt();
+        }
+        return option;
     }
 
     static void displayMainMenu() {
