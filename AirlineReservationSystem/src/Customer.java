@@ -234,17 +234,19 @@ public class Customer {
      *                   data.
      */
     public void displayCustomersData(boolean showHeader) {
-        displayHeader();
-        Iterator<Customer> iterator = customerCollection.iterator();
-        int i = 0;
-        while (iterator.hasNext()) {
-            i++;
-            Customer c = iterator.next();
-            System.out.println(c.toString(i));
-            System.out.printf(
-                    "%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n",
-                    "");
+        if (showHeader) {
+            displayHeader();
         }
+        int i = 0;
+        for (Customer c : customerCollection) {
+            i++;
+            System.out.println(c.formatForDisplay(i)); // [Rename Method]
+        }
+    }
+
+    private String formatForDisplay(int serialNumber) {
+        return String.format("%10s| %-10d | %-10s | %-32s | %-7d | %-27s | %-35s | %-23s |",
+                "", serialNumber, randomIDDisplay(userID), name, age, email, address, phone);
     }
 
     /**
@@ -286,6 +288,7 @@ public class Customer {
         }
         return newString.toString();
     }
+
 
     /**
      * Associates a new flight with the specified customer
