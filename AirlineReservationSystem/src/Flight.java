@@ -8,33 +8,24 @@ import java.util.*;
 public class Flight extends FlightDistance {
 
     //        ************************************************************ Fields ************************************************************
+    private final FlightSchedule flightSchedule; // [Extract Class]
+    private final FlightDetails flightDetails; // [Extract Class]
+    private final List<Customer> registeredCustomers; // [Encapsulate Collection]
 
-    private final String flightSchedule;
-    private final String flightNumber;
-    private final String fromWhichCity;
-    private final String gate;
-    private final String toWhichCity;
-    private double distanceInMiles;
-    private double distanceInKm;
-    private String flightTime;
-    private int numOfSeatsInTheFlight;
-    private List<Customer> listOfRegisteredCustomersInAFlight;
-    private int customerIndex;
-    private static int nextFlightDay = 0;
     private static final List<Flight> flightList = new ArrayList<>();
-
-    private static final double AVERAGE_GROUND_SPEED = 450.0;
+    private static int nextFlightDay = 0;
+    
+    private static final double AVERAGE_GROUND_SPEED = 450.0; // [Replace Magic Literal]
+    private int customerIndex;
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
-    Flight() {
-        this.flightSchedule = null;
-        this.flightNumber = null;
-        this.numOfSeatsInTheFlight = 0;
-        toWhichCity = null;
-        fromWhichCity = null;
-        this.gate = null;
+    Flight(String schedule, String flightNumber, int seats, String[][] cities, String[] distances, String gate) {
+        this.flightSchedule = new FlightSchedule(schedule, gate);
+        this.flightDetails = new FlightDetails(flightNumber, seats, cities, distances);
+        this.registeredCustomers = new ArrayList<>();
     }
+
 
     /**
      * Creates new random flight from the specified arguments.
@@ -46,18 +37,7 @@ public class Flight extends FlightDistance {
      * @param distanceBetweenTheCities gives the distance between the airports both in miles and kilometers
      * @param gate                     from where passengers will board to the aircraft
      */
-    Flight(String flightSchedule, String flightNumber, int numOfSeatsInTheFlight, String[][] chosenDestinations, String[] distanceBetweenTheCities, String gate) {
-        this.flightSchedule = flightSchedule;
-        this.flightNumber = flightNumber;
-        this.numOfSeatsInTheFlight = numOfSeatsInTheFlight;
-        this.fromWhichCity = chosenDestinations[0][0];
-        this.toWhichCity = chosenDestinations[1][0];
-        this.distanceInMiles = Double.parseDouble(distanceBetweenTheCities[0]);
-        this.distanceInKm = Double.parseDouble(distanceBetweenTheCities[1]);
-        this.flightTime = calculateFlightTime(distanceInMiles);
-        this.listOfRegisteredCustomersInAFlight = new ArrayList<>();
-        this.gate = gate;
-    }
+
 
     /**
      * Creates Flight Schedule. All methods of this class are collaborating with each other
