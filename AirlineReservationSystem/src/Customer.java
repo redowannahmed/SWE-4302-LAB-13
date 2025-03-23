@@ -178,29 +178,35 @@ public class Customer {
     }
 
     public void editUserInfo(String ID) {
-        boolean isFound = false;
         Scanner read = new Scanner(System.in);
-        for (Customer c : customerCollection) {
-            if (ID.equals(c.getUserID())) {
-                isFound = true;
-                System.out.print("\nEnter the new name of the Passenger:\t");
-                String name = read.nextLine();
-                c.setName(name);
-                System.out.print("Enter the new email address of Passenger " + name + ":\t");
-                c.setEmail(read.nextLine());
-                System.out.print("Enter the new Phone number of Passenger " + name + ":\t");
-                c.setPhone(read.nextLine());
-                System.out.print("Enter the new address of Passenger " + name + ":\t");
-                c.setAddress(read.nextLine());
-                System.out.print("Enter the new age of Passenger " + name + ":\t");
-                c.setAge(read.nextInt());
-                displayCustomersData(false);
-                break;
-            }
+        Customer targetCustomer = customerCollection.stream()
+                .filter(c -> c.getUserID().equals(ID))
+                .findFirst()
+                .orElse(null);
+
+        if (targetCustomer != null) { // [Replace Nested Conditional with Guard Clause]
+            updateCustomerInfo(targetCustomer, read); // [Extract Method]
+            displayCustomersData(false);
+        } else {
+            System.out.printf("No Customer with the ID %s Found.\n", ID);
         }
-        if (!isFound) {
-            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
-        }
+    }
+
+    private void updateCustomerInfo(Customer customer, Scanner read) { // [Extract Method]
+        System.out.print("\nEnter the new name: ");
+        customer.setName(read.nextLine());
+
+        System.out.print("Enter the new email: ");
+        customer.setEmail(read.nextLine());
+
+        System.out.print("Enter the new phone: ");
+        customer.setPhone(read.nextLine());
+
+        System.out.print("Enter the new address: ");
+        customer.setAddress(read.nextLine());
+
+        System.out.print("Enter the new age: ");
+        customer.setAge(read.nextInt());
     }
 
     public void deleteUser(String ID) {
