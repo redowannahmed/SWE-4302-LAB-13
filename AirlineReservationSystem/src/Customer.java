@@ -146,7 +146,12 @@ public class Customer {
     public void updateTickets(int index, int numOfTickets) {
         flightInfo.updateExistingFlightTickets(index, numOfTickets); // [Extract Class]
     }
-
+    
+    void addExistingFlightToCustomerList(int index, int numOfTickets) {
+        int newNumOfTickets = numOfTicketsBookedByUser.get(index) + numOfTickets;
+        this.numOfTicketsBookedByUser.set(index, newNumOfTickets);
+    }
+    
     public boolean isEmailAlreadyRegistered(String emailID) {
         boolean isUnique = false;
         for (Customer c : customerCollection) {
