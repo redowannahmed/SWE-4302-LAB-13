@@ -71,25 +71,57 @@ public class Customer {
     public void addNewCustomer() {
         System.out.printf("\n\n\n%60s ++++++++++++++ Welcome to the Customer Registration Portal ++++++++++++++", "");
         Scanner read = new Scanner(System.in);
+        
+        // [Technique: Extract Method] Extract input prompting to a dedicated method.
+        CustomerData data = inputCustomerData(read);
+        customerCollection.add(new Customer(data.name, data.email, data.password, data.phone, data.address, data.age));
+    }
+
+    private CustomerData inputCustomerData(Scanner read) {
+        String name, email, password, phone, address;
+        int age;
+        
         System.out.print("\nEnter your name :\t");
-        String name = read.nextLine();
+        name = read.nextLine();
+        
         System.out.print("Enter your email address :\t");
-        String email = read.nextLine();
+        email = read.nextLine();
         while (isUniqueData(email)) {
-            System.out.println(
-                    "ERROR!!! User with the same email already exists... Use new email or login using the previous credentials....");
+            System.out.println("ERROR!!! User with the same email already exists... Use new email or login using the previous credentials....");
             System.out.print("Enter your email address :\t");
             email = read.nextLine();
         }
+        
         System.out.print("Enter your Password :\t");
-        String password = read.nextLine();
+        password = read.nextLine();
+        
         System.out.print("Enter your Phone number :\t");
-        String phone = read.nextLine();
+        phone = read.nextLine();
+        
         System.out.print("Enter your address :\t");
-        String address = read.nextLine();
+        address = read.nextLine();
+        
         System.out.print("Enter your age :\t");
-        int age = read.nextInt();
-        customerCollection.add(new Customer(name, email, password, phone, address, age));
+        age = read.nextInt();
+        return new CustomerData(name, email, password, phone, address, age); // [Technique: Introduce Parameter Object]
+    }
+
+    private static class CustomerData {
+        String name;
+        String email;
+        String password;
+        String phone;
+        String address;
+        int age;
+
+        CustomerData(String name, String email, String password, String phone, String address, int age) {
+            this.name = name;
+            this.email = email;
+            this.password = password;
+            this.phone = phone;
+            this.address = address;
+            this.age = age;
+        }
     }
 
     /**
