@@ -86,7 +86,7 @@ public class Customer {
         
         System.out.print("Enter your email address :\t");
         email = read.nextLine();
-        while (isUniqueData(email)) {
+        while (isEmailAlreadyRegistered(email)) {
             System.out.println("ERROR!!! User with the same email already exists... Use new email or login using the previous credentials....");
             System.out.print("Enter your email address :\t");
             email = read.nextLine();
@@ -155,6 +155,10 @@ public class Customer {
         } else {
             System.out.printf("No Customer with the ID %s Found.\n", ID);
         }
+    }
+
+    public boolean isEmailAlreadyRegistered(String emailID) { // [Rename Method]
+        return customerCollection.stream().anyMatch(c -> c.getEmail().equals(emailID));
     }
 
     /**
