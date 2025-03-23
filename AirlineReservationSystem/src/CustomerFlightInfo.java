@@ -1,8 +1,8 @@
 import java.util.*;
 
-class CustomerFlightInfo {
-    private List<Flight> flightsRegistered;
-    private List<Integer> ticketsBooked;
+class CustomerFlightInfo implements DisplayClass {
+    private final List<Flight> flightsRegistered;
+    private final List<Integer> ticketsBooked;
 
     CustomerFlightInfo() {
         this.flightsRegistered = new ArrayList<>();
@@ -25,5 +25,25 @@ class CustomerFlightInfo {
 
     public List<Integer> getTicketsBooked() {
         return Collections.unmodifiableList(ticketsBooked);
+    }
+
+    @Override
+    public void displayRegisteredUsersForAllFlight() {
+        // Implementation for displaying all flights.
+    }
+
+    @Override
+    public void displayRegisteredUsersForASpecificFlight(String flightNum) {
+        // Implementation for displaying users for a specific flight.
+    }
+
+    @Override
+    public void displayHeaderForUsers(Flight flight, List<Customer> c) {
+        // Implementation for displaying headers.
+    }
+
+    @Override
+    public void displayFlightsRegisteredByOneUser(String userID) {
+        // Implementation for displaying flights registered by a single user.
     }
 }
