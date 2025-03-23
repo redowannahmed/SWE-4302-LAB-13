@@ -359,7 +359,35 @@ public class User {
         } while (desiredOption != 0);
     }
 
+    private static void searchCustomer(Customer customer) {
+        customer.displayCustomersData(false);
+        System.out.print("Enter the CustomerID to Search :\t");
+        String customerID = scanner.nextLine();
+        System.out.println();
+        customer.searchUser(customerID);
+    }
     
+    private static void updateCustomer(Customer customer) {
+        customer.displayCustomersData(false);
+        System.out.print("Enter the CustomerID to Update its Data :\t");
+        String customerID = scanner.nextLine();
+        if (customersCollection.size() > 0) {
+            customer.editUserInfo(customerID);
+        } else {
+            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", customerID);
+        }
+    }
+
+    private static void deleteCustomer(Customer customer) {
+        customer.displayCustomersData(false);
+        System.out.print("Enter the CustomerID to Delete its Data :\t");
+        String customerID = scanner.nextLine();
+        if (customersCollection.size() > 0) {
+            customer.deleteUser(customerID);
+        } else {
+            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", customerID);
+        }
+    }
 
     static void displayMainMenu() {
         System.out.println("\n\n\t\t(a) Press 0 to Exit.");

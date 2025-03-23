@@ -109,6 +109,42 @@ public class Customer {
         }
     }
 
+    public String toString(int flag) {
+        // If flag == 1, return detailed information
+        if (flag == 1) {
+            return String.format("Customer ID: %s\nName: %s\nEmail: %s\nPhone: %s\nAddress: %s\nAge: %d",
+                    userID, name, email, phone, address, age);
+        }
+        // Otherwise, return basic information
+        return toString();  // Fallback to default toString
+    }
+
+    public void editUserInfo(String ID) {
+        boolean isFound = false;
+        Scanner read = new Scanner(System.in);
+        for (Customer c : customerCollection) {
+            if (ID.equals(c.getUserID())) {
+                isFound = true;
+                System.out.print("\nEnter the new name of the Passenger:\t");
+                String name = read.nextLine();
+                c.setName(name);
+                System.out.print("Enter the new email address of Passenger " + name + ":\t");
+                c.setEmail(read.nextLine());
+                System.out.print("Enter the new Phone number of Passenger " + name + ":\t");
+                c.setPhone(read.nextLine());
+                System.out.print("Enter the new address of Passenger " + name + ":\t");
+                c.setAddress(read.nextLine());
+                System.out.print("Enter the new age of Passenger " + name + ":\t");
+                c.setAge(read.nextInt());
+                displayCustomersData(false);
+                break;
+            }
+        }
+        if (!isFound) {
+            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
+        }
+    }
+
     private String formatForDisplay(int serialNumber) {
         return String.format("%10s| %-10d | %-10s | %-32s | %-7d | %-27s | %-35s | %-23s |",
                 "", serialNumber, randomIDDisplay(userID), name, age, email, address, phone);
@@ -167,6 +203,48 @@ public class Customer {
             }
         }
         return isUnique;
+    }
+
+    public void deleteUser(String ID) {
+        boolean isFound = false;
+        Iterator<Customer> iterator = customerCollection.iterator();
+        while (iterator.hasNext()) {
+            Customer customer = iterator.next();
+            if (ID.equals(customer.getUserID())) {
+                isFound = true;
+                break;
+            }
+        }
+        if (isFound) {
+            iterator.remove();
+            System.out.printf("\n%-50sPrinting all  Customer's Data after deleting Customer with the ID %s.....!!!!\n",
+                    "", ID);
+            displayCustomersData(false);
+        } else {
+            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
+        }
+    }
+
+    public void searchUser(String ID) {
+        boolean isFound = false;
+        Customer customerWithTheID = customerCollection.get(0);
+        for (Customer c : customerCollection) {
+            if (ID.equals(c.getUserID())) {
+                System.out.printf("%-50sCustomer Found...!!!Here is the Full Record...!!!\n\n\n", " ");
+                displayHeader();
+                isFound = true;
+                customerWithTheID = c;
+                break;
+            }
+        }
+        if (isFound) {
+            System.out.println(customerWithTheID.toString(1));
+            System.out.printf(
+                    "%10s+------------+------------+----------------------------------+---------+-----------------------------+-------------------------------------+-------------------------+\n",
+                    "");
+        } else {
+            System.out.printf("%-50sNo Customer with the ID %s Found...!!!\n", " ", ID);
+        }
     }
 
     // Getters & Setters...
