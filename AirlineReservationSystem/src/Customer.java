@@ -15,6 +15,9 @@ public class Customer {
     public List<Integer> numOfTicketsBookedByUser;
     public static final List<Customer> customerCollection = User.getCustomersCollection();
 
+    // Magic literal for spacing in randomIDDisplay refactored into constant
+    private static final int ID_SPACE_POSITION = 3;
+
     // ************************************************************
     // Behaviours/Methods
     // ************************************************************
