@@ -320,6 +320,47 @@ public class User {
         return option;
     }
 
+    private static void handleAdminLogin(RolesAndPermissions rolesAndPermissions, Customer customer, FlightReservation bookingAndReserving, Flight flight) {
+        System.out.print("\nEnter the UserName to login to the Management System :     ");
+        String username = scanner.nextLine();
+        System.out.print("Enter the Password to login to the Management System :    ");
+        String password = scanner.nextLine();
+        System.out.println();
+
+        int privilegeLevel = rolesAndPermissions.isPrivilegedUserOrNot(username, password);
+        if (privilegeLevel == -1) {
+            System.out.printf("\n%20sERROR!!! Unable to login Cannot find user with the entered credentials.... Try Creating New Credentials or get yourself register by pressing 4....\n", "");
+        } else if (privilegeLevel == 0) {
+            System.out.println("You've standard/default privileges to access the data... You can just view customers data... Can't perform any actions on them....");
+            customer.displayCustomersData(true);
+        } else {
+            System.out.printf("%-20sLogged in Successfully as \"%s\"..... For further Proceedings, enter a value from below....", "", username);
+            handleAdminMenu(username, customer, bookingAndReserving, flight);
+        }
+    }
+
+    private static void handleAdminMenu(String username, Customer customer, FlightReservation bookingAndReserving, Flight flight) {
+        int desiredOption;
+        do {
+            displayAdminMenu(username);
+            desiredOption = scanner.nextInt();
+            switch (desiredOption) {
+                case 1 -> customer.addNewCustomer();
+                case 2 -> searchCustomer(customer);
+                case 3 -> updateCustomer(customer);
+                case 4 -> deleteCustomer(customer);
+                case 5 -> customer.displayCustomersData(false);
+                case 6 -> displayFlightsByUser(bookingAndReserving, customer);
+                case 7 -> displayPassengersInFlight(bookingAndReserving, flight);
+                case 8 -> deleteFlight(flight);
+                case 0 -> System.out.println("Thanks for Using BAV Airlines Ticketing System...!!!");
+                default -> System.out.println("Invalid Choice...Looks like you're Robot...Entering values randomly...You've Have to login again...");
+            }
+        } while (desiredOption != 0);
+    }
+
+    
+
     static void displayMainMenu() {
         System.out.println("\n\n\t\t(a) Press 0 to Exit.");
         System.out.println("\t\t(b) Press 1 to Login as admin.");
