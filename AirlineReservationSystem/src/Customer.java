@@ -277,12 +277,12 @@ public class Customer {
      * @param randomID id to add space
      * @return randomID with added space
      */
-    String randomIDDisplay(String randomID) {
+    private String randomIDDisplay(String randomID) { // [Extract Method, Replace Magic Literal]
         StringBuilder newString = new StringBuilder();
-        for (int i = 0; i <= randomID.length(); i++) {
-            if (i == 3) {
+        for (int i = 0; i < randomID.length(); i++) {
+            if (i == ID_SPACE_POSITION) {
                 newString.append(" ").append(randomID.charAt(i));
-            } else if (i < randomID.length()) {
+            } else {
                 newString.append(randomID.charAt(i));
             }
         }
