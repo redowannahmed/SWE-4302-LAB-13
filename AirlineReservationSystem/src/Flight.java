@@ -23,6 +23,8 @@ public class Flight extends FlightDistance {
     private static int nextFlightDay = 0;
     private static final List<Flight> flightList = new ArrayList<>();
 
+    private static final double AVERAGE_GROUND_SPEED = 450.0;
+
     //        ************************************************************ Behaviours/Methods ************************************************************
 
     Flight() {
