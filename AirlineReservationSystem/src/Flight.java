@@ -8,22 +8,26 @@ import java.util.*;
 public class Flight extends FlightDistance {
 
     //        ************************************************************ Fields ************************************************************
-    private final FlightSchedule flightSchedule; // [Extract Class]
-    private final FlightDetails flightDetails; // [Extract Class]
-    private final List<Customer> registeredCustomers; // [Encapsulate Collection]
-
-    private static final List<Flight> flightList = new ArrayList<>();
-    private static int nextFlightDay = 0;
-    
-    private static final double AVERAGE_GROUND_SPEED = 450.0; // [Replace Magic Literal]
+    private final FlightDetails flightDetails;
+    private final FlightSchedule flightSchedule;
+    private String flightTime;
+    private List<Customer> listOfRegisteredCustomersInAFlight;
     private int customerIndex;
+    private static int nextFlightDay = 0;
+    private static final List<Flight> flightList = new ArrayList<>();
 
     //        ************************************************************ Behaviours/Methods ************************************************************
 
-    Flight(String schedule, String flightNumber, int seats, String[][] cities, String[] distances, String gate) {
-        this.flightSchedule = new FlightSchedule(schedule, gate);
-        this.flightDetails = new FlightDetails(flightNumber, seats, cities, distances);
-        this.registeredCustomers = new ArrayList<>();
+    Flight() {
+        this.flightDetails = null;
+        this.flightSchedule = null;
+    }
+
+    Flight(FlightDetails flightDetails, FlightSchedule flightSchedule) {
+        this.flightDetails = flightDetails;
+        this.flightSchedule = flightSchedule;
+        this.flightTime = calculateFlightTime(flightDetails.getDistanceInMiles());
+        this.listOfRegisteredCustomersInAFlight = new ArrayList<>();
     }
 
 
@@ -43,17 +47,22 @@ public class Flight extends FlightDistance {
      * Creates Flight Schedule. All methods of this class are collaborating with each other
      * to create flight schedule of the said length in this method.
      */
+    // Refactoring: Extract Method (for flight scheduling logic)
     public void flightScheduler() {
-        int numOfFlights = 15;              // decides how many unique flights to be included/display in scheduler
+        int numOfFlights = 15;
         RandomGenerator r1 = new RandomGenerator();
         for (int i = 0; i < numOfFlights; i++) {
             String[][] chosenDestinations = r1.randomDestinations();
             String[] distanceBetweenTheCities = calculateDistance(Double.parseDouble(chosenDestinations[0][1]), Double.parseDouble(chosenDestinations[0][2]), Double.parseDouble(chosenDestinations[1][1]), Double.parseDouble(chosenDestinations[1][2]));
-            String flightSchedule = createNewFlightsAndTime();
+            String flightSchedule = FlightSchedule.createNewFlightTime();
             String flightNumber = r1.randomFlightNumbGen(2, 1).toUpperCase();
             int numOfSeatsInTheFlight = r1.randomNumOfSeats();
             String gate = r1.randomFlightNumbGen(1, 30);
-            flightList.add(new Flight(flightSchedule, flightNumber, numOfSeatsInTheFlight, chosenDestinations, distanceBetweenTheCities, gate.toUpperCase()));
+
+            FlightDetails flightDetails = new FlightDetails(flightNumber, numOfSeatsInTheFlight, chosenDestinations, distanceBetweenTheCities);
+            FlightSchedule schedule = new FlightSchedule(flightSchedule, gate.toUpperCase());
+
+            flightList.add(new Flight(flightDetails, schedule));
         }
     }
 
