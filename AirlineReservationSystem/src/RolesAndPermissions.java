@@ -1,41 +1,28 @@
-public class RolesAndPermissions extends User {
-    //        ************************************************************ Behaviours/Methods ************************************************************
+public class RolesAndPermissions {
+    private final UserService userService = new UserService();
 
     /**
-     * Checks if the admin with specified credentials is registered or not.
-     * @param username of the imaginary admin
-     * @param password of the imaginary admin
-     * @return -1 if admin not found, else index of the admin in the array.
+     * Checks if the admin with specified credentials is registered.
+     * @param username of the admin
+     * @param password of the admin
+     * @return -1 if admin not found, else 1
      */
     public int isPrivilegedUserOrNot(String username, String password) {
-        int isFound = -1;
-        for (int i = 0; i < adminUserNameAndPassword.length; i++) {
-            if (username.equals(adminUserNameAndPassword[i][0])) {
-                if (password.equals(adminUserNameAndPassword[i][1])) {
-                    isFound = i;
-                    break;
-                }
-            }
-        }
-        return isFound;
+        return userService.isAdminRegistered(username, password) ? 1 : -1;
     }
 
     /**
-     * Checks if the passenger with specified credentials is registered or not.
+     * Checks if the passenger with specified credentials is registered.
      * @param email of the specified passenger
      * @param password of the specified passenger
-     * @return 1 with the userID if the passenger is registered, else 0
+     * @return "1-userID" if the passenger is registered, else "0"
      */
     public String isPassengerRegistered(String email, String password) {
-        String isFound = "0";
-        for (Customer c : Customer.customerCollection) {
-            if (email.equals(c.getEmail())) {
-                if (password.equals(c.getPassword())) {
-                    isFound = "1-" + c.getUserID();
-                    break;
-                }
+        for (Customer c : CustomerService.getCustomersCollection()) {
+            if (email.equals(c.getEmail()) && password.equals(c.getPassword())) {
+                return "1-" + c.getUserID();
             }
         }
-        return isFound;
+        return "0";
     }
 }

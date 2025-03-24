@@ -16,7 +16,8 @@ public class Customer {
     private final CustomerFlightInfo flightInfo; // [Extract Class]
     public List<Integer> numOfTicketsBookedByUser;
     public List<Flight> flightsRegisteredByUser;
-    public static final List<Customer> customerCollection = User.getCustomersCollection();
+    CustomerService customerService = new CustomerService();
+    public static final List<Customer> customerCollection = CustomerService.getCustomersCollection();
 
     private static final int ID_SPACE_POSITION = 3; // [Replace Magic Literal]
 
@@ -110,14 +111,14 @@ public class Customer {
     }
 
     public String toString(int flag) {
-        // If flag == 1, return detailed information
-        if (flag == 1) {
-            return String.format("Customer ID: %s\nName: %s\nEmail: %s\nPhone: %s\nAddress: %s\nAge: %d",
-                    userID, name, email, phone, address, age);
-        }
-        // Otherwise, return basic information
-        return toString();  // Fallback to default toString
+    // If flag == 1, return detailed information
+    if (flag == 1) {
+        return String.format("Customer ID: %s\nName: %s\nEmail: %s\nPhone: %s\nAddress: %s\nAge: %d",
+                userID, name, email, phone, address, age);
     }
+    // Otherwise, return basic information
+    return toString();  // Fallback to default toString
+}
 
     public void editUserInfo(String ID) {
         boolean isFound = false;
